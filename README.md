@@ -1,5 +1,7 @@
 # vue-image-viewer
 
+[live demo](https://guygubaby.github.io/vue-image-viewer/)
+
 ## brief intro
 
 A image viewer for both vue2 and vue3 using [medium-zoom](https://www.npmjs.com/package/medium-zoom)
