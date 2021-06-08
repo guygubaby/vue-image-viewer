@@ -1,24 +1,45 @@
 # vue-image-viewer
 
-## Project setup
-```
-yarn install
+## brief intro
+
+A image viewer for both vue2 and vue3
+
+## install
+
+```bash
+yarn add vue-image-viewer-mz
+# or
+npm i vue-image-viewer-mz
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
+## usage
+
+### main.ts
+
+```ts
+import { createApp } from "vue";
+import App from "./App.vue";
+import {
+  createVueImageViewerPlugin,
+  VueImageViewerPluginOptions
+} from "vue-image-viewer-mz";
+
+const options: VueImageViewerPluginOptions = {
+  directiveName: "viewer"
+};
+
+const VueImageViewerPlugin = createVueImageViewerPlugin(options);
+
+createApp(App).use(VueImageViewerPlugin).mount("#app");
 ```
 
-### Compiles and minifies for production
-```
-yarn build
-```
+### App.vue
 
-### Lints and fixes files
+```html
+<img v-viewer src="fake src" alt="fake name" />
+<!-- or -->
+<div v-viewer>
+  <img src="fake src" alt="fake name" />
+  <img src="fake src" alt="fake name" />
+</div>
 ```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
