@@ -86,7 +86,7 @@ const patchImage = (
 };
 
 const debouncedPatchImage = debounce(patchImage, 300, {
-  leading: false,
+  leading: true,
   trailing: true,
 });
 
