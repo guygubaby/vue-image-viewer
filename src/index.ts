@@ -96,6 +96,7 @@ export const viewer = (
   },
   options: ZoomOptions = BASE_MEDIUM_ZOOM_OPTIONS
 ): void => {
+  if(targetEl[OBSERVER_PLUGIN_FLAG]) return;
   debouncedPatchImage(targetEl, options);
 
   const patchObserver = new MutationObserver((mutations) => {
