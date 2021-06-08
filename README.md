@@ -2,7 +2,7 @@
 
 ## brief intro
 
-A image viewer for both vue2 and vue3
+A image viewer for both vue2 and vue3 using [medium-zoom](https://www.npmjs.com/package/medium-zoom)
 
 ## install
 
