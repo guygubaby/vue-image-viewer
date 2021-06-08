@@ -98,7 +98,7 @@ export const viewer = (
 ): void => {
   if(targetEl[OBSERVER_PLUGIN_FLAG]) return;
   
-  debouncedPatchImage(targetEl, options);
+  patchImage(targetEl, options);
 
   const patchObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
