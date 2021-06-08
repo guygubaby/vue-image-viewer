@@ -47,24 +47,44 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 1rem 0.5rem;
+}
+
 .app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
   margin: 0 auto;
-  width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 2), 1fr);
+}
+
+@media screen and (max-width: 768px) {
+  .app {
+    --cols: 2;
+  }
+}
+
+@media screen and (min-width: 1080px) {
+  .app {
+    --cols: 4;
+  }
 }
 
 img {
   object-fit: cover;
+  // max-width: calc(50vw - 4rem);
+  height: 30vh;
+  width: auto;
 }
 
 .image-item {
-  & + .image-item {
-    margin-left: 1rem;
-  }
+  text-align: center;
 }
 </style>

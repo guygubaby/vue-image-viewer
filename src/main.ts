@@ -4,6 +4,9 @@ import {
   createVueImageViewerPlugin,
   VueImageViewerPluginOptions,
 } from "./entry";
+import vhCheck from "vh-check";
+
+vhCheck();
 
 const options: VueImageViewerPluginOptions = {
   directiveName: "viewer",
