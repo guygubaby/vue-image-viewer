@@ -10,6 +10,7 @@ vhCheck();
 
 const options: VueImageViewerPluginOptions = {
   directiveName: "viewer",
+  background: "#fff",
 };
 
 const VueImageViewerPlugin = createVueImageViewerPlugin(options);

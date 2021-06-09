@@ -2,6 +2,7 @@ import type { ZoomOptions } from "medium-zoom";
 import { App, isVue3, Directive } from "vue-demi";
 import { viewer } from "./index";
 import { OBSERVER_PLUGIN_FLAG } from "./constants/index";
+import { ViewerElType } from "./types";
 
 export interface VueImageViewerPluginOptions extends ZoomOptions {
   directiveName?: string;
@@ -12,23 +13,30 @@ export interface VueImageViewerPlugin {
   install(app: App): void;
 }
 
+const unregister = (el: ViewerElType) => {
+  const ob: MutationObserver | undefined = el[OBSERVER_PLUGIN_FLAG];
+  ob && ob.disconnect();
+};
+
 const createDirectiveHooksV2 = (
   options?: VueImageViewerPluginOptions
 ): Directive & {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   inserted(el: any): void;
-  update(el: any): void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  update?(el: any): void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   unbind(el: any): void;
 } => {
   return {
     inserted(el) {
       viewer(el, options);
     },
-    update(el) {
-      viewer(el, options);
-    },
+    // update(el) {
+    //   viewer(el, options);
+    // },
     unbind(el) {
-      const ob: MutationObserver | undefined = el[OBSERVER_PLUGIN_FLAG];
-      ob && ob.disconnect();
+      unregister(el);
     },
   };
 };
@@ -40,12 +48,11 @@ const createDirectiveHooksV3 = (
     mounted(el) {
       viewer(el, options);
     },
-    updated(el) {
-      viewer(el, options);
-    },
+    // updated(el) {
+    //   viewer(el, options);
+    // },
     beforeUnmount(el) {
-      const ob: MutationObserver | undefined = el[OBSERVER_PLUGIN_FLAG];
-      ob && ob.disconnect();
+      unregister(el);
     },
   };
 };

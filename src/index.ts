@@ -8,7 +8,7 @@ import {
 import { nextTick } from "vue-demi";
 import debounce from "lodash.debounce";
 import mediumZoom, { ZoomOptions, Zoom } from "medium-zoom";
-import type { Jobs } from "./types/index";
+import type { Jobs, ViewerElType } from "./types/index";
 
 declare global {
   interface Window {
@@ -78,7 +78,7 @@ const patchImage = (
       IMAGE_SELECTOR
     ) as NodeListOf<HTMLImageElement>;
 
-    [...images].forEach((image) => {
+    images.forEach((image) => {
       initZoom(image, options);
     });
   };
@@ -91,14 +91,12 @@ const debouncedPatchImage = debounce(patchImage, 300, {
 });
 
 export const viewer = (
-  targetEl: HTMLElement & {
-    [OBSERVER_PLUGIN_FLAG]: MutationObserver;
-  },
+  targetEl: ViewerElType,
   options: ZoomOptions = BASE_MEDIUM_ZOOM_OPTIONS
 ): void => {
-  if(targetEl[OBSERVER_PLUGIN_FLAG]) return;
-  
-  patchImage(targetEl, options);
+  if (targetEl[OBSERVER_PLUGIN_FLAG]) return;
+
+  patchImage(targetEl, { ...BASE_MEDIUM_ZOOM_OPTIONS, ...options });
 
   const patchObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
