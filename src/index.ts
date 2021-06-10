@@ -10,13 +10,6 @@ import debounce from "lodash.debounce";
 import mediumZoom, { ZoomOptions, Zoom } from "medium-zoom";
 import type { Jobs, ViewerElType } from "./types/index";
 
-declare global {
-  interface Window {
-    WebKitMutationObserver: MutationObserver;
-    MozMutationObserver: MutationObserver;
-  }
-}
-
 const MutationObserver =
   window.MutationObserver ||
   window.WebKitMutationObserver ||

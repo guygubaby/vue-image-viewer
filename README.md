@@ -19,6 +19,7 @@ npm i vue-image-viewer-mz
 ### main.ts
 
 ```ts
+// entry point of your vue app
 import { createApp } from "vue";
 import App from "./App.vue";
 import {
@@ -33,6 +34,25 @@ const options: VueImageViewerPluginOptions = {
 const VueImageViewerPlugin = createVueImageViewerPlugin(options);
 
 createApp(App).use(VueImageViewerPlugin).mount("#app");
+```
+
+### or in component directive
+
+```html
+<template>
+  <img v-viewer-in-component src="fake src" alt="fake name" />
+</template>
+
+<script>
+  import { createDirective as createVueImageViewerDirective } from "vue-image-viewer-mz";
+  import { defineComponent } from "vue";
+
+  export default defineComponent({
+    directives: {
+      "viewer-in-component": createVueImageViewerDirective()
+    }
+  });
+</script>
 ```
 
 ### App.vue

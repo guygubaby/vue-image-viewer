@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ZoomOptions } from "medium-zoom";
 import { App, isVue3, Directive } from "vue-demi";
 import { viewer } from "./index";
@@ -21,20 +22,14 @@ const unregister = (el: ViewerElType) => {
 const createDirectiveHooksV2 = (
   options?: VueImageViewerPluginOptions
 ): Directive & {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   inserted(el: any): void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   update?(el: any): void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   unbind(el: any): void;
 } => {
   return {
     inserted(el) {
       viewer(el, options);
     },
-    // update(el) {
-    //   viewer(el, options);
-    // },
     unbind(el) {
       unregister(el);
     },
@@ -48,24 +43,25 @@ const createDirectiveHooksV3 = (
     mounted(el) {
       viewer(el, options);
     },
-    // updated(el) {
-    //   viewer(el, options);
-    // },
     beforeUnmount(el) {
       unregister(el);
     },
   };
 };
 
+export const createDirective = (
+  options?: VueImageViewerPluginOptions
+): Directive => {
+  const directive: Directive = isVue3
+    ? createDirectiveHooksV3(options)
+    : createDirectiveHooksV2(options);
+  return directive;
+};
+
 export function createVueImageViewerPlugin(
   options?: VueImageViewerPluginOptions
 ): VueImageViewerPlugin {
-  let directive: Directive;
-  if (isVue3) {
-    directive = createDirectiveHooksV3(options);
-  } else {
-    directive = createDirectiveHooksV2(options);
-  }
+  const directive: Directive = createDirective(options);
 
   const plugin: VueImageViewerPlugin = {
     options,
