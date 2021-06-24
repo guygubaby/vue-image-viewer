@@ -5,7 +5,6 @@ export const ObserverKey = "__observer_key__";
 export const observeConfig: MutationObserverInit = {
   attributes: true,
   childList: true,
-  characterData: true,
   subtree: true,
 };
 

@@ -5,9 +5,10 @@
       <ElImage v-viewer :src="image.src" :alt="image.name" fit="cover" />
     </div>
   </div>
-
-  <ElButton type="primary" @click="handleAdd1">more images</ElButton>
-  <ElButton type="info" @click="handleDel">del image</ElButton>
+  <p style="text-align: center">
+    <ElButton type="primary" @click="handleAdd1">more images</ElButton>
+    <ElButton type="info" @click="handleDel">del image</ElButton>
+  </p>
 </template>
 
 <script lang="ts">

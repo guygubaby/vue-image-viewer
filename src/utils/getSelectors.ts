@@ -22,7 +22,7 @@ export const getSelectors = (
     }
   }
 
-  // observe ele using mictotask defer task
+  // async observe ele
   nextTick(() => {
     createObserver(el);
   });
@@ -34,14 +34,14 @@ const debouncedEmitRegisterEvent = debounce(
   (eventKey: string | undefined) => {
     eventKey && emitter.emit(eventKey);
   },
-  300,
+  50,
   {
-    trailing: true,
     leading: false,
+    trailing: true,
   }
 );
 
-const obMap = new WeakMap<HTMLElement, 1>();
+export const obMap = new WeakMap<HTMLElement, 1>();
 
 const createObserver = (el: HTMLElement | null) => {
   if (!el || obMap.has(el) || el[ObserverKey]) return;
@@ -55,9 +55,9 @@ const createObserver = (el: HTMLElement | null) => {
 
   obMap.set(el, 1);
 
-  const ob = new MutationObserver(() =>
-    debouncedEmitRegisterEvent(el[EventKey])
-  );
+  const ob = new MutationObserver(() => {
+    debouncedEmitRegisterEvent(el[EventKey]);
+  });
   ob.observe(el, observeConfig);
   el[ObserverKey] = ob;
 };

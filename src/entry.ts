@@ -2,12 +2,12 @@
 import type { Zoom, ZoomOptions } from "medium-zoom";
 import mediumZoom from "medium-zoom";
 import type { App, Directive } from "vue-demi";
-import { nextTick } from "vue-demi";
 import { mediumZoomSymbol } from "./composables/index";
-import { getSelectors } from "./utils/getSelectors";
+import { getSelectors, obMap } from "./utils/getSelectors";
 import mitt from "mitt";
 import { uuid } from "./utils/uuid";
 import { EventKey, ObserverKey } from "./constants";
+import arrayEqual from "array-equal";
 
 export const emitter = mitt();
 
@@ -31,13 +31,27 @@ const createZoom = (options: MediumZoomPluginOptions): Zoom => {
 
 let zoom: Zoom | null = null;
 
+const el2zoomTargets = new WeakMap<
+  HTMLElement,
+  ReturnType<typeof getSelectors>
+>();
+
 const handleRegister = (
   el: HTMLElement | null,
   options: VueImageViewerPluginOptions,
   zoom: Zoom | null
 ) => {
-  if (!zoom) return;
+  if (!zoom || !el) return;
+
+  const oldSelectors = el2zoomTargets.get(el) || [];
   const selectors = getSelectors(el, options.selector);
+
+  // if zoom target not change, skip flowing operation
+  const shouldUpdate = !arrayEqual<HTMLElement>(oldSelectors, selectors);
+  if (!shouldUpdate) return;
+
+  zoom.detach(oldSelectors);
+  el2zoomTargets.set(el, selectors);
   zoom.attach(selectors);
 };
 
@@ -58,15 +72,14 @@ const register = (
   });
 };
 
-const unregister = (
-  el: HTMLElement | null,
-  options: VueImageViewerPluginOptions
-) => {
+const unregister = (el: HTMLElement | null) => {
   if (!el) return;
   if (zoom) {
-    const selectors = getSelectors(el, options.selector);
-    zoom.detach(selectors);
+    const oldSelectors = el2zoomTargets.get(el) || [];
+    zoom.detach(oldSelectors);
   }
+
+  el2zoomTargets.delete(el);
 
   // stop listen update event
   const eventKey = el[EventKey];
@@ -74,6 +87,7 @@ const unregister = (
   delete el[EventKey];
 
   // stop observe element
+  obMap.delete(el);
   const ob = el[ObserverKey];
   ob && ob.disconnect();
   delete el[ObserverKey];
@@ -87,20 +101,16 @@ const createDirectiveHooks = (
 } => {
   return {
     inserted(el) {
-      nextTick(() => {
-        register(el, options);
-      });
+      register(el, options);
     },
     unbind(el) {
-      unregister(el, options);
+      unregister(el);
     },
     mounted(el) {
-      nextTick(() => {
-        register(el, options);
-      });
+      register(el, options);
     },
     beforeUnmount(el) {
-      unregister(el, options);
+      unregister(el);
     },
   };
 };

@@ -10,6 +10,7 @@ const options: VueImageViewerPluginOptions = {
   directiveName: "viewer",
   zoomOptions: {
     background: "#000",
+    scrollOffset: 20,
   },
 };
 
