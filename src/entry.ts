@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ZoomOptions } from "medium-zoom";
-import { App, isVue3, Directive } from "vue-demi";
-import { viewer } from "./index";
-import { OBSERVER_PLUGIN_FLAG } from "./constants/index";
-import { ViewerElType } from "./types";
+import type { Zoom, ZoomOptions } from "medium-zoom";
+import mediumZoom from "medium-zoom";
+import type { App, Directive } from "vue-demi";
+import { nextTick } from "vue-demi";
+import { mediumZoomSymbol } from "./composables/index";
+import { getSelectors } from "./utils/getSelectors";
 
-export interface VueImageViewerPluginOptions extends ZoomOptions {
+export interface VueImageViewerPluginOptions extends MediumZoomPluginOptions {
   directiveName?: string;
 }
 
@@ -14,59 +15,86 @@ export interface VueImageViewerPlugin {
   install(app: App): void;
 }
 
-const unregister = (el: ViewerElType) => {
-  const ob: MutationObserver | undefined = el[OBSERVER_PLUGIN_FLAG];
-  ob && ob.disconnect();
+export interface MediumZoomPluginOptions {
+  selector?: string;
+  zoomOptions?: ZoomOptions;
+}
+
+const createZoom = (options: MediumZoomPluginOptions): Zoom => {
+  return mediumZoom(options.zoomOptions);
 };
 
-const createDirectiveHooksV2 = (
-  options?: VueImageViewerPluginOptions
+let zoom: Zoom | null = null;
+
+const register = (
+  el: HTMLElement | null,
+  options: VueImageViewerPluginOptions
+) => {
+  if (!el) return;
+  const selectors = getSelectors(el, options.selector);
+  if (!zoom) {
+    zoom = createZoom(options);
+  }
+  zoom.attach(selectors);
+};
+
+const unregister = (
+  el: HTMLElement | null,
+  options: VueImageViewerPluginOptions
+) => {
+  if (!el) return;
+  if (zoom) {
+    const selectors = getSelectors(el, options.selector);
+    zoom.detach(selectors);
+  }
+};
+
+const createDirectiveHooks = (
+  options: VueImageViewerPluginOptions
 ): Directive & {
   inserted(el: any): void;
-  update?(el: any): void;
   unbind(el: any): void;
 } => {
   return {
     inserted(el) {
-      viewer(el, options);
+      nextTick(() => {
+        register(el, options);
+      });
     },
     unbind(el) {
-      unregister(el);
+      unregister(el, options);
     },
-  };
-};
-
-const createDirectiveHooksV3 = (
-  options?: VueImageViewerPluginOptions
-): Directive => {
-  return {
     mounted(el) {
-      viewer(el, options);
+      nextTick(() => {
+        register(el, options);
+      });
     },
     beforeUnmount(el) {
-      unregister(el);
+      unregister(el, options);
     },
   };
 };
 
 export const createDirective = (
-  options?: VueImageViewerPluginOptions
+  options: VueImageViewerPluginOptions
 ): Directive => {
-  const directive: Directive = isVue3
-    ? createDirectiveHooksV3(options)
-    : createDirectiveHooksV2(options);
-  return directive;
+  return createDirectiveHooks(options);
 };
 
-export function createVueImageViewerPlugin(
-  options?: VueImageViewerPluginOptions
+export function createPlugin(
+  options: VueImageViewerPluginOptions
 ): VueImageViewerPlugin {
-  const directive: Directive = createDirective(options);
+  const directive: Directive = createDirectiveHooks(options);
+
+  if (!zoom) {
+    zoom = createZoom(options);
+  }
 
   const plugin: VueImageViewerPlugin = {
     options,
     install(app: App) {
       app.directive(options?.directiveName || "viewer", directive);
+      app.provide(mediumZoomSymbol, zoom);
     },
   };
 

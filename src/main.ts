@@ -1,18 +1,16 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import {
-  createVueImageViewerPlugin,
-  VueImageViewerPluginOptions,
-} from "./entry";
+import { createPlugin, VueImageViewerPluginOptions } from "./index";
 import vhCheck from "vh-check";
 
 vhCheck();
 
 const options: VueImageViewerPluginOptions = {
+  selector: "img",
   directiveName: "viewer",
-  background: "#fff",
+  zoomOptions: {
+    background: "#000",
+  },
 };
 
-const VueImageViewerPlugin = createVueImageViewerPlugin(options);
-
-createApp(App).use(VueImageViewerPlugin).mount("#app");
+createApp(App).use(createPlugin(options)).mount("#app");

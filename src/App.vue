@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <div class="image-item" v-for="image in imageList" :key="image.id">
-      <img v-viewer-in-component :src="image.src" :alt="image.name" />
+      <img v-viewer :src="image.src" :alt="image.name" />
     </div>
   </div>
 
@@ -13,13 +13,9 @@
 import { defineComponent, reactive } from "vue";
 import { uuid } from "./utils/uuid";
 import { getRandomImageSrc } from "./utils/random-image";
-import { createDirective as createVueImageViewerDirective } from "./entry";
 
 export default defineComponent({
   name: "App",
-  directives: {
-    "viewer-in-component": createVueImageViewerDirective(),
-  },
   setup() {
     const imageList = reactive(
       Array.from({ length: 1 }, () => {

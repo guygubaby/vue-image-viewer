@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import path from "path";
-import ts from "rollup-plugin-typescript2";
-import replace from "@rollup/plugin-replace";
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import pascalcase from "pascalcase";
+import path from 'path';
+import ts from 'rollup-plugin-typescript2';
+import replace from '@rollup/plugin-replace';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import pascalcase from 'pascalcase';
 
-const pkg = require("./package.json");
+const pkg = require('./package.json');
 const name = pkg.name;
 
 function getAuthors(pkg) {
@@ -20,7 +20,7 @@ function getAuthors(pkg) {
     });
   if (author) authors.add(author.name);
 
-  return Array.from(authors).join(", ");
+  return Array.from(authors).join(', ');
 }
 
 const banner = `/*!
@@ -35,7 +35,7 @@ let hasTSChecked = false;
 const outputConfigs = {
   // each file name has the format: `dist/${name}.${format}.js`
   // format being a key of this object
-  "esm-bundler": {
+  'esm-bundler': {
     file: pkg.module,
     format: `es`,
   },
@@ -43,11 +43,11 @@ const outputConfigs = {
     file: pkg.main,
     format: `cjs`,
   },
-  "global-vue-3": {
-    file: pkg.unpkg.replace("2", "3"),
+  'global-vue-3': {
+    file: pkg.unpkg.replace('2', '3'),
     format: `iife`,
   },
-  "global-vue-2": {
+  'global-vue-2': {
     file: pkg.unpkg,
     format: `iife`,
   },
@@ -65,9 +65,9 @@ const packageConfigs = packageFormats.map((format) =>
 
 // only add the production ready if we are bundling the options
 packageFormats.forEach((format) => {
-  if (format === "cjs") {
+  if (format === 'cjs') {
     packageConfigs.push(createProductionConfig(format));
-  } else if (format.startsWith("global")) {
+  } else if (format.startsWith('global')) {
     packageConfigs.push(createMinifiedConfig(format));
   }
 });
@@ -76,34 +76,34 @@ export default packageConfigs;
 
 function createConfig(format, output, plugins = []) {
   if (!output) {
-    console.log(require("chalk").yellow(`invalid format: "${format}"`));
+    console.log(require('chalk').yellow(`invalid format: "${format}"`));
     process.exit(1);
   }
 
   output.sourcemap = false;
   output.banner = banner;
   output.externalLiveBindings = false;
-  output.globals = { "vue-demi": "VueDemi" };
+  output.globals = { 'vue-demi': 'VueDemi' };
 
   const isProductionBuild = /\.prod\.js$/.test(output.file);
-  const isGlobalBuild = format.startsWith("global");
-  const isRawESMBuild = format === "esm";
-  const isNodeBuild = format === "cjs";
+  const isGlobalBuild = format.startsWith('global');
+  const isRawESMBuild = format === 'esm';
+  const isNodeBuild = format === 'cjs';
   const isBundlerESMBuild = /esm-bundler/.test(format);
 
   if (isGlobalBuild) output.name = pascalcase(pkg.name);
 
   const tsPlugin = ts({
     check: !hasTSChecked,
-    tsconfig: path.resolve(__dirname, "tsconfig.json"),
-    cacheRoot: path.resolve(__dirname, "node_modules/.rts2_cache"),
+    tsconfig: path.resolve(__dirname, 'tsconfig.json'),
+    cacheRoot: path.resolve(__dirname, 'node_modules/.rts2_cache'),
     tsconfigOverride: {
       compilerOptions: {
         sourceMap: false,
         declaration: true,
         declarationMap: false,
       },
-      exclude: ["__tests__", "test-dts"],
+      exclude: ['__tests__', 'test-dts'],
     },
   });
   // we only need to check TS and generate declarations once for each build.
@@ -111,12 +111,12 @@ function createConfig(format, output, plugins = []) {
   // during a single build.
   hasTSChecked = true;
 
-  const external = ["vue-demi"];
+  const external = ['vue-demi'];
 
   const nodePlugins = [resolve(), commonjs()];
 
   return {
-    input: `src/entry.ts`,
+    input: `src/index.ts`,
     // Global and Browser ESM builds inlines everything so that they can be
     // used alone.
     external,
@@ -185,7 +185,7 @@ function createProductionConfig(format) {
 }
 
 function createMinifiedConfig(format) {
-  const { terser } = require("rollup-plugin-terser");
+  const { terser } = require('rollup-plugin-terser');
   return createConfig(
     format,
     {
