@@ -23,7 +23,7 @@ npm i vue-image-viewer-mz
 import { createApp } from "vue";
 import App from "./App.vue";
 import {
-  createVueImageViewerPlugin,
+  createPlugin as createVueImageViewerPlugin,
   VueImageViewerPluginOptions
 } from "vue-image-viewer-mz";
 
@@ -31,9 +31,7 @@ const options: VueImageViewerPluginOptions = {
   directiveName: "viewer"
 };
 
-const VueImageViewerPlugin = createVueImageViewerPlugin(options);
-
-createApp(App).use(VueImageViewerPlugin).mount("#app");
+createApp(App).use(createVueImageViewerPlugin(options)).mount("#app");
 ```
 
 ### or in component directive
@@ -64,4 +62,23 @@ createApp(App).use(VueImageViewerPlugin).mount("#app");
   <img src="fake src" alt="fake name" />
   <img src="fake src" alt="fake name" />
 </div>
+```
+
+### Composition API
+
+Only works when you use as a `plugin` in your `main.ts`
+
+#### useMediumZoom
+
+```js
+import { nextTick } from "vue";
+import { useMediumZoom } from "vue-image-viewer-mz";
+
+export default {
+  setup() {
+    // ... do something to add new images in current page
+    const zoom = useMediumZoom();
+    // you can get the zoom instance here
+  }
+};
 ```

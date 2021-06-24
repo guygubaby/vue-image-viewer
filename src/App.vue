@@ -1,24 +1,26 @@
 <template>
   <div class="app">
     <div class="image-item" v-for="image in imageList" :key="image.id">
-      <img v-viewer-in-component :src="image.src" :alt="image.name" />
+      <!-- <img v-viewer :src="image.src" :alt="image.name" /> -->
+      <ElImage v-viewer :src="image.src" :alt="image.name" fit="cover" />
     </div>
   </div>
 
-  <button @click="handleAdd1">more images</button>
-  <button @click="handleDel">del image</button>
+  <ElButton type="primary" @click="handleAdd1">more images</ElButton>
+  <ElButton type="info" @click="handleDel">del image</ElButton>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import { uuid } from "./utils/uuid";
 import { getRandomImageSrc } from "./utils/random-image";
-import { createDirective as createVueImageViewerDirective } from "./entry";
+import { ElImage, ElButton } from "element-plus";
 
 export default defineComponent({
   name: "App",
-  directives: {
-    "viewer-in-component": createVueImageViewerDirective(),
+  components: {
+    ElImage,
+    ElButton,
   },
   setup() {
     const imageList = reactive(
@@ -81,7 +83,8 @@ body {
   }
 }
 
-img {
+img,
+.el-image {
   object-fit: cover;
   // max-width: calc(50vw - 4rem);
   height: 30vh;

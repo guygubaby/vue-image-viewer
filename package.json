@@ -1,6 +1,6 @@
 {
   "name": "vue-image-viewer-mz",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": false,
   "files": [
     "dist/*"
@@ -29,8 +29,10 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "element-plus": "^1.0.2-beta.52",
     "lodash.debounce": "^4.0.8",
     "medium-zoom": "^1.0.6",
+    "mitt": "^3.0.0",
     "mutation-observer": "^1.0.3",
     "vh-check": "^2.0.5",
     "vue": "^3.0.0",
@@ -38,7 +40,7 @@
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.0.0-beta.12",
-    "vue": "^2.6.11 || >=3.0.0"
+    "vue": "^2.6.10 || >=3.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "19.0.0",
