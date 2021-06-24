@@ -5,6 +5,11 @@ import type { App, Directive } from "vue-demi";
 import { nextTick } from "vue-demi";
 import { mediumZoomSymbol } from "./composables/index";
 import { getSelectors } from "./utils/getSelectors";
+import mitt from "mitt";
+import { uuid } from "./utils/uuid";
+import { EventKey, ObserverKey } from "./constants";
+
+export const emitter = mitt();
 
 export interface VueImageViewerPluginOptions extends MediumZoomPluginOptions {
   directiveName?: string;
@@ -26,16 +31,31 @@ const createZoom = (options: MediumZoomPluginOptions): Zoom => {
 
 let zoom: Zoom | null = null;
 
+const handleRegister = (
+  el: HTMLElement | null,
+  options: VueImageViewerPluginOptions,
+  zoom: Zoom | null
+) => {
+  if (!zoom) return;
+  const selectors = getSelectors(el, options.selector);
+  zoom.attach(selectors);
+};
+
 const register = (
   el: HTMLElement | null,
   options: VueImageViewerPluginOptions
 ) => {
   if (!el) return;
-  const selectors = getSelectors(el, options.selector);
   if (!zoom) {
     zoom = createZoom(options);
   }
-  zoom.attach(selectors);
+  handleRegister(el, options, zoom);
+
+  const eventKey = uuid();
+  el[EventKey] = eventKey;
+  emitter.on(eventKey, () => {
+    handleRegister(el, options, zoom);
+  });
 };
 
 const unregister = (
@@ -47,6 +67,16 @@ const unregister = (
     const selectors = getSelectors(el, options.selector);
     zoom.detach(selectors);
   }
+
+  // stop listen update event
+  const eventKey = el[EventKey];
+  eventKey && emitter.off(eventKey); // clear all the handler in the name of [eventKey]
+  delete el[EventKey];
+
+  // stop observe element
+  const ob = el[ObserverKey];
+  ob && ob.disconnect();
+  delete el[ObserverKey];
 };
 
 const createDirectiveHooks = (
