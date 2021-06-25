@@ -1,13 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Zoom, ZoomOptions } from "medium-zoom";
-import mediumZoom from "medium-zoom";
 import type { App, Directive } from "vue-demi";
+
+import mediumZoom from "medium-zoom";
+import mitt from "mitt";
+import arrayEqual from "array-equal";
+import { isVue2 } from "vue-demi";
+
 import { mediumZoomSymbol } from "./composables/index";
 import { getSelectors, obMap } from "./utils/getSelectors";
-import mitt from "mitt";
 import { uuid } from "./utils/uuid";
 import { EventKey, ObserverKey } from "./constants";
-import arrayEqual from "array-equal";
+
+type AppType<T extends boolean> = T extends true ? any : App;
 
 export const emitter = mitt();
 
@@ -17,7 +22,7 @@ export interface VueImageViewerPluginOptions extends MediumZoomPluginOptions {
 
 export interface VueImageViewerPlugin {
   options?: VueImageViewerPluginOptions;
-  install(app: App): void;
+  install(app: AppType<typeof isVue2>): any;
 }
 
 export interface MediumZoomPluginOptions {
@@ -132,9 +137,11 @@ export function createPlugin(
 
   const plugin: VueImageViewerPlugin = {
     options,
-    install(app: App) {
+    install(app: AppType<typeof isVue2>) {
       app.directive(options?.directiveName || "viewer", directive);
-      app.provide(mediumZoomSymbol, zoom);
+      if (!isVue2) {
+        app.provide(mediumZoomSymbol, zoom);
+      }
     },
   };
 
