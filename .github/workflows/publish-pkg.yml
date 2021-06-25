@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: publish-pkg
 
 # Controls when the workflow will run
 on:
@@ -31,8 +31,8 @@ jobs:
           node-version: 14
 
       # Runs a single command using the runners shell
-      - name: Build package
-        run: yarn build-pkg
+      - name: Install dependencies and build package
+        run: yarn && yarn build-pkg
 
       # Runs a set of commands using the runners shell
       - name: Publish to npm
