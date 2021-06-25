@@ -1,21 +1,46 @@
-import { RollupOptions, OutputOptions, Plugin, ModuleFormat } from "rollup";
+import type {
+  RollupOptions,
+  OutputOptions,
+  Plugin,
+  ModuleFormat,
+} from "rollup";
 import dts from "rollup-plugin-dts";
 import typescript from "rollup-plugin-typescript2";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import { terser } from "rollup-plugin-terser";
+import pkg from "../package.json";
+
+const banner = `/*!
+  * ${pkg.name} v${pkg.version}
+  * (c) ${new Date().getFullYear()} ${pkg.author}
+  * @license MIT
+  */`;
 
 const formats: ModuleFormat[] = ["umd", "esm", "cjs"];
 
-const output: OutputOptions[] = formats.map((format) => {
-  return {
-    file: `dist/index.${format}.js`,
+const output: OutputOptions[] = formats.reduce((accumulator, format) => {
+  const baseConfig: OutputOptions = {
     format,
-    name: "vue-image-viewer-mz",
+    banner,
+    name: pkg.name,
     globals: {
       "vue-demi": "VueDemi",
     },
   };
-});
+  const outputs: OutputOptions[] = [
+    {
+      ...baseConfig,
+      file: `dist/index.${format}.js`,
+    },
+    {
+      ...baseConfig,
+      file: `dist/index.${format}.min.js`,
+      plugins: [terser()],
+    },
+  ];
+  return [...accumulator, ...outputs];
+}, []);
 
 const nodePlugins: Plugin[] = [resolve(), commonjs()];
 
