@@ -1,4 +1,4 @@
-# vue-image-viewer
+# vue-image-viewer 🎉
 
 [live demo](https://guygubaby.github.io/vue-image-viewer/)
 

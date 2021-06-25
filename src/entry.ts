@@ -36,7 +36,7 @@ const createZoom = (options: MediumZoomPluginOptions): Zoom => {
 
 let zoom: Zoom | null = null;
 
-const el2zoomTargets = new WeakMap<
+export const el2zoomTargets = new WeakMap<
   HTMLElement,
   ReturnType<typeof getSelectors>
 >();
@@ -47,12 +47,12 @@ const handleRegister = (
   zoom: Zoom | null
 ) => {
   if (!zoom || !el) return;
-
   const oldSelectors = el2zoomTargets.get(el) || [];
   const selectors = getSelectors(el, options.selector);
 
   // if zoom target not change, skip flowing operation
   const shouldUpdate = !arrayEqual<HTMLElement>(oldSelectors, selectors);
+
   if (!shouldUpdate) return;
 
   zoom.detach(oldSelectors);

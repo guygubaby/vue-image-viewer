@@ -4,7 +4,7 @@ import {
   observeConfig,
   ObserverKey,
 } from "@/constants";
-import { emitter } from "../index";
+import { emitter, el2zoomTargets } from "../index";
 import debounce from "lodash.debounce";
 import { nextTick } from "vue-demi";
 
@@ -36,7 +36,7 @@ const debouncedEmitRegisterEvent = debounce(
   },
   50,
   {
-    leading: false,
+    leading: true,
     trailing: true,
   }
 );
@@ -56,7 +56,12 @@ const createObserver = (el: HTMLElement | null) => {
   obMap.set(el, 1);
 
   const ob = new MutationObserver(() => {
-    debouncedEmitRegisterEvent(el[EventKey]);
+    const eventKey = el[EventKey];
+    if (el2zoomTargets.has(el)) {
+      debouncedEmitRegisterEvent(eventKey);
+    } else {
+      eventKey && emitter.emit(eventKey);
+    }
   });
   ob.observe(el, observeConfig);
   el[ObserverKey] = ob;
