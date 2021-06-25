@@ -4,4 +4,12 @@ import { createPlugin } from "./index";
 
 import "element-plus/lib/theme-chalk/index.css";
 
-createApp(App).use(createPlugin()).mount("#app");
+createApp(App)
+  .use(
+    createPlugin({
+      zoomOptions: {
+        background: "#fff",
+      },
+    })
+  )
+  .mount("#app");
