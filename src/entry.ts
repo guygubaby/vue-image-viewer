@@ -10,7 +10,7 @@ import { isVue2 } from "vue-demi";
 import { mediumZoomSymbol } from "./composables/index";
 import { getSelectors, obMap } from "./utils/getSelectors";
 import { uuid } from "./utils/uuid";
-import { EventKey, ObserverKey } from "./constants";
+import { DefaultZoomConfig, EventKey, ObserverKey } from "./constants";
 
 type AppType<T extends boolean> = T extends true ? any : App;
 
@@ -121,13 +121,13 @@ const createDirectiveHooks = (
 };
 
 export const createDirective = (
-  options: VueImageViewerPluginOptions
+  options: VueImageViewerPluginOptions = DefaultZoomConfig
 ): Directive => {
   return createDirectiveHooks(options);
 };
 
 export function createPlugin(
-  options: VueImageViewerPluginOptions
+  options: VueImageViewerPluginOptions = DefaultZoomConfig
 ): VueImageViewerPlugin {
   const directive: Directive = createDirectiveHooks(options);
 
@@ -138,7 +138,7 @@ export function createPlugin(
   const plugin: VueImageViewerPlugin = {
     options,
     install(app: AppType<typeof isVue2>) {
-      app.directive(options?.directiveName || "viewer", directive);
+      app.directive(options.directiveName || "viewer", directive);
       if (!isVue2) {
         app.provide(mediumZoomSymbol, zoom);
       }

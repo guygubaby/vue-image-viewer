@@ -1,3 +1,5 @@
+import { VueImageViewerPluginOptions } from "../index";
+
 export const EventKey = "__EventKey__";
 
 export const ObserverKey = "__observer_key__";
@@ -22,3 +24,11 @@ export const imageSrcList: string[] = [
 ];
 
 export const DEFAULT_SELECTOR = ":not(a) > img";
+
+export const DefaultZoomConfig: VueImageViewerPluginOptions = {
+  directiveName: "viewer",
+  zoomOptions: {
+    background: "#fff",
+    scrollOffset: 20,
+  },
+};

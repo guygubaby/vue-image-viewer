@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <div class="image-item" v-for="image in imageList" :key="image.id">
-      <!-- <img v-viewer :src="image.src" :alt="image.name" /> -->
+      <!-- <img v-test :src="image.src" :alt="image.name" /> -->
       <ElImage v-viewer :src="image.src" :alt="image.name" fit="cover" />
     </div>
   </div>
@@ -16,16 +16,20 @@ import { defineComponent, reactive } from "vue";
 import { uuid } from "./utils/uuid";
 import { getRandomImageSrc } from "./utils/random-image";
 import { ElImage, ElButton } from "element-plus";
+import { createDirective } from "./index";
 
 export default defineComponent({
   name: "App",
+  directives: {
+    test: createDirective(),
+  },
   components: {
     ElImage,
     ElButton,
   },
   setup() {
     const imageList = reactive(
-      Array.from({ length: 1 }, () => {
+      Array.from({ length: 10 }, () => {
         return {
           id: uuid(),
           name: uuid(),
