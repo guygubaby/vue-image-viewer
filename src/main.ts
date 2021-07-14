@@ -1,15 +1,15 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import { createPlugin } from "./index";
+import { createApp } from 'vue'
+import App from './App.vue'
+import { createPlugin } from './index'
 
-import "element-plus/lib/theme-chalk/index.css";
+import 'element-plus/lib/theme-chalk/index.css'
 
 createApp(App)
   .use(
     createPlugin({
       zoomOptions: {
-        background: "#fff",
+        background: '#fff',
       },
-    })
+    }),
   )
-  .mount("#app");
+  .mount('#app')

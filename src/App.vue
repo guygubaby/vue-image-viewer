@@ -1,25 +1,29 @@
 <template>
   <div class="app">
-    <div class="image-item" v-for="image in imageList" :key="image.id">
+    <div v-for="image in imageList" :key="image.id" class="image-item">
       <!-- <img v-test :src="image.src" :alt="image.name" /> -->
       <ElImage v-viewer :src="image.src" :alt="image.name" fit="cover" />
     </div>
   </div>
   <p style="text-align: center">
-    <ElButton type="primary" @click="handleAdd1">more images</ElButton>
-    <ElButton type="info" @click="handleDel">del image</ElButton>
+    <ElButton type="primary" @click="handleAdd1">
+      more images
+    </ElButton>
+    <ElButton type="info" @click="handleDel">
+      del image
+    </ElButton>
   </p>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
-import { uuid } from "./utils/uuid";
-import { getRandomImageSrc } from "./utils/random-image";
-import { ElImage, ElButton } from "element-plus";
-import { createDirective } from "./index";
+import { defineComponent, reactive } from 'vue'
+import { ElImage, ElButton } from 'element-plus'
+import { uuid } from './utils/uuid'
+import { getRandomImageSrc } from './utils/random-image'
+import { createDirective } from './index'
 
 export default defineComponent({
-  name: "App",
+  name: 'App',
   directives: {
     test: createDirective(),
   },
@@ -34,27 +38,27 @@ export default defineComponent({
           id: uuid(),
           name: uuid(),
           src: getRandomImageSrc(),
-        };
-      })
-    );
+        }
+      }),
+    )
 
     const handleAdd1 = () => {
       imageList.push({
         id: uuid(),
         name: uuid(),
         src: getRandomImageSrc(),
-      });
-    };
+      })
+    }
 
     const handleDel = () => {
-      const length = imageList.length;
-      const index = Math.floor(Math.random() * length);
-      imageList.splice(index, 1);
-    };
+      const length = imageList.length
+      const index = Math.floor(Math.random() * length)
+      imageList.splice(index, 1)
+    }
 
-    return { imageList, handleAdd1, handleDel };
+    return { imageList, handleAdd1, handleDel }
   },
-});
+})
 </script>
 
 <style lang="scss">
