@@ -945,9 +945,9 @@
     "@typescript-eslint/eslint-plugin" "^4.28.3"
     "@typescript-eslint/parser" "^4.28.3"
 
-"@bryce-loskie/eslint-config-vue@^0.6.0":
+"@bryce-loskie/eslint-config-vue@0.6.0":
   version "0.6.0"
-  resolved "https://registry.npmjs.org/@bryce-loskie/eslint-config-vue/-/eslint-config-vue-0.6.0.tgz#b4319961f2f7a34940ac60222c87e0a95995f64e"
+  resolved "https://registry.yarnpkg.com/@bryce-loskie/eslint-config-vue/-/eslint-config-vue-0.6.0.tgz#b4319961f2f7a34940ac60222c87e0a95995f64e"
   integrity sha512-w4Mw21Dfe9JKkXVDksgX7IsZRx4SHdDsi0nCVKD+HHrA9KjpBuvZ/4CZpcaLSrQ+06m7BIDtOt6Moj3jiQSAZw==
   dependencies:
     "@bryce-loskie/eslint-config-ts" "^0.6.0"
@@ -3784,9 +3784,9 @@ electron-to-chromium@^1.3.723:
   resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.3.756.tgz#942cee59cd64d19f576d8d5804eef09cb423740c"
   integrity sha512-WsmJym1TMeHVndjPjczTFbnRR/c4sbzg8fBFtuhlb2Sru3i/S1VGpzDSrv/It8ctMU2bj8G7g7/O3FzYMGw6eA==
 
-element-plus@^1.0.2-beta.52:
+element-plus@1.0.2-beta.52:
   version "1.0.2-beta.52"
-  resolved "https://registry.npmjs.org/element-plus/-/element-plus-1.0.2-beta.52.tgz#c7ed94d498e390658478aa2438bc35247325b2d0"
+  resolved "https://registry.yarnpkg.com/element-plus/-/element-plus-1.0.2-beta.52.tgz#c7ed94d498e390658478aa2438bc35247325b2d0"
   integrity sha512-oAuJHwXyvM4dsuOz7HSDPIBVPqRJ1KEzFzGqYdqbBjQ/aw79uCJxvS9Q4q9/XrPMfPire09+bPTypiIaHkNBhA==
   dependencies:
     "@popperjs/core" "^2.4.4"
@@ -3916,9 +3916,9 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-esbuild-register@^2.6.0:
+esbuild-register@2.6.0:
   version "2.6.0"
-  resolved "https://registry.npmjs.org/esbuild-register/-/esbuild-register-2.6.0.tgz#9f19a54c82be751dd87673d6a66d7b9e1cdd8498"
+  resolved "https://registry.yarnpkg.com/esbuild-register/-/esbuild-register-2.6.0.tgz#9f19a54c82be751dd87673d6a66d7b9e1cdd8498"
   integrity sha512-2u4AtnCXP5nivtIxZryiZOUcEQkOzFS7UhAqibUEmaTAThJ48gDLYTBF/Fsz+5r0hbV1jrFE6PQvPDUrKZNt/Q==
   dependencies:
     esbuild "^0.12.8"
@@ -4134,9 +4134,9 @@ eslint-visitor-keys@^3.0.0:
   resolved "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-3.0.0.tgz#e32e99c6cdc2eb063f204eda5db67bfe58bb4186"
   integrity sha512-mJOZa35trBTb3IyRmo8xmKBZlxf+N7OnUl4+ZhJHs/r+0770Wh/LEACE2pqMGMe27G/4y8P2bYGk4J70IC5k1Q==
 
-eslint@^7.30.0:
+eslint@7.30.0:
   version "7.30.0"
-  resolved "https://registry.npmjs.org/eslint/-/eslint-7.30.0.tgz#6d34ab51aaa56112fd97166226c9a97f505474f8"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.30.0.tgz#6d34ab51aaa56112fd97166226c9a97f505474f8"
   integrity sha512-VLqz80i3as3NdloY44BQSJpFw534L9Oh+6zJOUaViV4JPd+DaHwutqP7tcpkW3YiXbK6s05RZl7yl7cQn+lijg==
   dependencies:
     "@babel/code-frame" "7.12.11"
@@ -7997,9 +7997,9 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rollup-plugin-dts@^3.0.2:
+rollup-plugin-dts@3.0.2:
   version "3.0.2"
-  resolved "https://registry.npmjs.org/rollup-plugin-dts/-/rollup-plugin-dts-3.0.2.tgz#2b628d88f864d271d6eaec2e4c2a60ae4e944c5c"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-dts/-/rollup-plugin-dts-3.0.2.tgz#2b628d88f864d271d6eaec2e4c2a60ae4e944c5c"
   integrity sha512-hswlsdWu/x7k5pXzaLP6OvKRKcx8Bzprksz9i9mUe72zvt8LvqAb/AZpzs6FkLgmyRaN8B6rUQOVtzA3yEt9Yw==
   dependencies:
     magic-string "^0.25.7"
@@ -9364,9 +9364,9 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^3.0.0:
+vue@3.1.2:
   version "3.1.2"
-  resolved "https://registry.npmjs.org/vue/-/vue-3.1.2.tgz#647f8e3949a3d600771dca25d50225dc3e594c64"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-3.1.2.tgz#647f8e3949a3d600771dca25d50225dc3e594c64"
   integrity sha512-q/rbKpb7aofax4ugqu2k/uj7BYuNPcd6Z5/qJtfkJQsE0NkwVoCyeSh7IZGH61hChwYn3CEkh4bHolvUPxlQ+w==
   dependencies:
     "@vue/compiler-dom" "3.1.2"
