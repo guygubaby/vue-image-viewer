@@ -62,7 +62,7 @@
     "rollup-plugin-typescript2": "0.30.0",
     "rollup-plugin-vue": "6.0.0",
     "sass": "1.34.1",
-    "sass-loader": "8.0.2",
+    "sass-loader": "12.6.0",
     "typescript": "4.1.5",
     "vue": "^3.0.0"
   },
